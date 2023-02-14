@@ -1,49 +1,119 @@
-/* React 컴포넌트 --------------------------------------------------------------- */
+/* React 컴포넌트 -------------------------------------------------------------- */
 
-// 함수(형) 컴포넌트
-function Group(props) {
-  console.log(props.lang);
-  console.log(props.content);
+// 일반함수 이름 : camelCase
+// 컴포넌트 이름 : PascalCase
 
-  // JSX 보간법(interpolation)
-  // <element prop={value}>this is {content}</element>
+/* 함수 컴포넌트 ------------------------------------------------------------------ */
 
+function AppLogo(props) {
+  let imageSource = "/assets/logo/";
+  imageSource += props.outline ? "outline" : "fill";
+  imageSource += props.color === "white" ? "-white" : "-red";
+
+  let ext = "svg";
+
+  return <img src={`${imageSource}.${ext}`} alt="Netflix" />;
+}
+
+function AppHomeLink() {
   return (
-    <div role="group" lang={props.lang}>
-      {props.content}
-    </div>
+    <h1>
+      <a href="https://netflix.com/"></a>
+    </h1>
   );
 }
 
-function Group2(props) {
-  console.log(props);
-  console.log(props.class);
-  console.log(props.ariaLabel);
-  console.log(props.content);
-
+function AppSearch() {
   return (
-    <div className={props.class} role="group2" aria-label={props.ariaLabel}>
-      {props.content}
-    </div>
+    <form role="search">
+      <label htmlFor="search">검색</label>
+      <input id="search" type="search" />
+    </form>
   );
 }
 
-// 클래스 컴포넌트
-class Logo extends React.Component {
-  // 생성자
-  // constructor(props) {
-  //   super(props);
-  // }
+function AppNav() {
+  return (
+    <nav aria-label="">
+      <ul>
+        <li>
+          <a href="">link 1</a>
+        </li>
+        <li>
+          <a href="">link 2</a>
+        </li>
+        <li>
+          <a href="">link 3</a>
+        </li>
+      </ul>
+    </nav>
+  );
+}
 
-  // 렌더링
+function AppHeader() {
+  return (
+    <header>
+      <AppLogo />
+      <AppLogo outline />
+      <AppLogo color="white" />
+      <AppLogo color="white" outline />
+
+      <AppSearch />
+      <AppNav />
+    </header>
+  );
+}
+
+function AppMain() {
+  return (
+    <main>
+      <AppLogo />
+      <p>앱 메인 정보를 입력합니다.</p>
+    </main>
+  );
+}
+
+function AppFooter() {
+  return (
+    <footer>
+      <AppLogo />
+      <address>
+        <small>저작권 정보</small>
+      </address>
+    </footer>
+  );
+}
+
+/* 클래스 컴포넌트 ----------------------------------------------------------------- */
+// - 2018년까지는....
+// - 클래스 컴포넌트는 상태를 가질 수 있다.
+// - 함수 컴포넌트는 상태를 가질 수 없다.
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // 컴포넌트 상태
+    // 애플리케이션의 상태
+    // 상태 업데이트 → 다시 렌더링!!!
+    // 선언형 프로그래밍
+    this.state = {
+      headline: "",
+      description: "",
+      subjects: [],
+    };
+  }
+
   render() {
-    // React 엘리먼트 반환
-    // return <img src="../public/assets/react-logo.svg" alt="React" />;
+    // const {  } = this.props;
 
-    // React는 99% JavaScript
-    // 구조 분해 할당
-    const { path, label } = this.props;
-    <img src={path} alt={label} />;
+    return (
+      <div className="app">
+        <AppHeader />
+        <AppMain />
+        <AppFooter />
+      </div>
+    );
   }
 }
 
@@ -52,81 +122,7 @@ class Logo extends React.Component {
 const reactDomRoot = ReactDOM.createRoot(document.getElementById("root"));
 
 reactDomRoot.render(
-  <React.Fragment>
-    <Logo label="React"></Logo>
-    <Group lang="es" content="sit amet consectetur." />
-    <Logo
-      path="https://upload.vectorlogo.zone/logos/nextjs/images/60eff509-53dd-4280-92e7-7318fa02e934.svg"
-      label="Next.js"
-      unknown="아무 것도 몰라요~"
-    />
-    <Group lang="ru" content="Далеко-далеко за словесными горами." />
-    <Group2
-      class="anything"
-      content="나너무졸려요 큰일났어,,,"
-      ariaLabel="너무나도졸려"
-    />
-  </React.Fragment>
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
 );
-
-// reactDomRoot.render(
-//   [
-//     // with JSX
-//     <div role="presentation" lang="ko" key="with-jsx">
-//       <Logo /> 리액트
-//     </div>,
-
-//     // without JSX
-//     React.createElement(
-//       'div',
-//       { role: 'gorup', lang: 'en', key: "without-jsx" },
-//       React.createElement(Logo),
-//       'React'
-//     ),
-//   ]
-// );
-
-// 함수의 arguments
-function sum(x, y) {
-  return x + y;
-}
-
-sum(10, 1000); // 1010
-sum(-9, -2); // 1010
-
-// React 컴포넌트의 Props (함수의 전달인자)
-function MenuList(props) {
-  // { items: [...] }
-  return (
-    <ul>
-      <li>item 1</li>
-      <li>item 2</li>
-    </ul>
-  );
-}
-
-// React.createElement(MenuList); // sum();
-
-// sum(29, 103);
-// React.createElement(
-//   MenuList,
-//   {
-//     items: [
-//       { id: 'menu-1', title: 'munu one'},
-//       { id: 'menu-2', title: 'munu two'},
-//     ]
-//   }
-// );
-
-{
-  /* <MenuList></MenuList>
-
-const items = [ 
-  { id: 'menu-1', title: 'munu one'},
-  { id: 'menu-2', title: 'munu two'},
-] */
-}
-
-{
-  /* <MenuList items={items}></MenuList> */
-}
