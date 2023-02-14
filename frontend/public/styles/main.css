@@ -1,2 +1,7 @@
-@import './_base.css';
-@import './_layout.css';
+@import "./_base.css";
+@import "./_layout.css";
+
+.swiper {
+  width: 600px;
+  height: 300px;
+}
