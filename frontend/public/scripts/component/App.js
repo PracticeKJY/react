@@ -12,6 +12,9 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+import LogIn from "../page/LogIn.js";
+import Browse from "../page/Browse.js";
+import Home from "../page/Home.js";
 var App = /*#__PURE__*/function (_React$Component) {
   _inherits(App, _React$Component);
   var _super = _createSuper(App);
@@ -24,6 +27,7 @@ var App = /*#__PURE__*/function (_React$Component) {
     _this = _super.call.apply(_super, [this].concat(args));
     _defineProperty(_assertThisInitialized(_this), "state", {
       headline: "React Application",
+      isPaid: true,
       isToggle: false,
       isLoading: !true,
       hasError: null
@@ -34,9 +38,11 @@ var App = /*#__PURE__*/function (_React$Component) {
     });
     _defineProperty(_assertThisInitialized(_this), "originalHeadline", _this.state.headline);
     _defineProperty(_assertThisInitialized(_this), "willUpdateHeadline", "new headline❗");
+    _defineProperty(_assertThisInitialized(_this), "unknown", null);
     _defineProperty(_assertThisInitialized(_this), "handleChangeHeadline", function () {
-      var assignHeadlineContent = "";
-      var isToggle = _this.state.isToggle;
+      // let assignHeadlineContent = "";
+      // const { isToggle } = this.state;
+
       //조건 처리
       //문(보기편하게만들것인가)
       // if (this.state.isToggle) {
@@ -77,25 +83,44 @@ var App = /*#__PURE__*/function (_React$Component) {
         headline = _this$state.headline,
         isDisabled = _this$state.isDisabled,
         isToggle = _this$state.isToggle,
-        hasError = _this$state.hasError;
+        hasError = _this$state.hasError,
+        isPaid = _this$state.isPaid;
+
+      //스피너도 추가할 수 있고,
       if (this.state.isLoading) {
         return /*#__PURE__*/React.createElement("div", {
           role: "alert"
         }, "\uB370\uC774\uD130 \uB85C\uB529\uC911 ...");
       }
+
+      // 에러메세지도 출력할 수 있다.
       if (this.state.hasError) {
         return /*#__PURE__*/React.createElement("div", {
           role: "alert"
         }, hasError);
       }
+      return /*#__PURE__*/React.createElement(Home, null);
       return /*#__PURE__*/React.createElement("div", {
-        "data-component": "App"
+        className: "App"
       }, /*#__PURE__*/React.createElement("h1", null, headline), /*#__PURE__*/React.createElement("button", {
+        // disabled={this.state.isDisabled}
         type: "button",
         onClick: this.handleChangeHeadline
-        //버튼비활성화 상태 업데이트하기
-        // disabled={isDisabled}
-      }, isToggle ? "오리지널 헤드라인으로 변경" : "새로운 헤드라인변경"));
+      }, isToggle ? "오리지널 헤드라인으로 변경" : "뉴 헤드라인으로 변경"), /*#__PURE__*/React.createElement(LogIn, null), isPaid && /*#__PURE__*/React.createElement(Browse, null))
+
+      // <div data-component="App">
+      //   <h1>{headline}</h1>
+      //   {/* React의 JSX(React 엘리먼트)에 연결한 이벤트 리스너(함수)는 언제 실행되는가? */}
+      //   <button
+      //     type="button"
+      //     onClick={this.handleChangeHeadline}
+      //     //버튼비활성화 상태 업데이트하기
+      //     // disabled={isDisabled}
+      //   >
+      //     {isToggle ? "오리지널 헤드라인으로 변경" : "새로운 헤드라인변경"}
+      //   </button>
+      // </div>
+      ;
     }
   }]);
   return App;

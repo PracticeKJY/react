@@ -32,3 +32,13 @@ ul {
 button {
   cursor: pointer;
 }
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+
+/* svg에 아래속성넣으면 이벤트위임에 버블링막아줌 */
+button svg{
+
+}
