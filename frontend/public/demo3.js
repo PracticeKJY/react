@@ -6,7 +6,7 @@
 /* 함수 컴포넌트 ------------------------------------------------------------------ */
 
 function AppLogo(props) {
-  let imageSource = "/assets/logo/";
+  let imageSource = "./assets/logo/";
   imageSource += props.outline ? "outline" : "fill";
   imageSource += props.color === "white" ? "-white" : "-red";
 
@@ -18,8 +18,6 @@ function AppLogo(props) {
 function AppHomeLink() {
   return (
     <h1>
-      {" "}
-      /* 엘리먼트 */
       <a href="https://netflix.com/"></a>
     </h1>
   );
@@ -52,18 +50,51 @@ function AppNav() {
   );
 }
 
-function AppHeader() {
-  return (
-    <header>
-      <AppLogo />
-      <AppLogo outline />
-      <AppLogo color="white" />
-      <AppLogo color="white" outline />
+class AppHeader extends React.Component {
+  state = {
+    outline: false,
+    color: "red",
+  };
 
-      <AppSearch />
-      <AppNav />
-    </header>
-  );
+  changeOutline = () => {
+    this.setState({
+      outline: !this.state.outline,
+    });
+  };
+
+  render() {
+    const { logoType } = this.props;
+
+    return (
+      <header>
+        <AppLogo
+          outline={logoType.shape.includes("outline") ? true : false}
+          color={logoType.color}
+        />
+
+        <div role="group">
+          <button type="button" onClick={this.changeOutline}>
+            change logo type is outline
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              console.log("clicked button 2");
+            }}
+          >
+            change logo type is fill
+          </button>
+        </div>
+
+        {/* <AppLogo outline /> */}
+        {/* <AppLogo color="white" /> */}
+        {/* <AppLogo color="white" outline /> */}
+
+        <AppSearch />
+        <AppNav />
+      </header>
+    );
+  }
 }
 
 function AppMain() {
@@ -94,15 +125,15 @@ function AppFooter() {
 class App extends React.Component {
   constructor(props) {
     super(props);
-
     // 컴포넌트 상태
     // 애플리케이션의 상태
     // 상태 업데이트 → 다시 렌더링!!!
     // 선언형 프로그래밍
     this.state = {
-      headline: "",
-      description: "",
-      subjects: [],
+      logoType: {
+        shape: "outline",
+        color: "red",
+      },
     };
   }
 
@@ -111,7 +142,7 @@ class App extends React.Component {
 
     return (
       <div className="app">
-        <AppHeader />
+        <AppHeader logoType={this.state.logoType} />
         <AppMain />
         <AppFooter />
       </div>
