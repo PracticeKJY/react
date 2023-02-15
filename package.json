@@ -9,12 +9,6 @@
     "compile": "babel frontend/src -d frontend/public/scripts",
     "watch": "npm run compile -- --watch"
   },
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react"
-    ]
-  },
   "devDependencies": {
     "@babel/cli": "^7.20.7",
     "@babel/core": "^7.20.12",
